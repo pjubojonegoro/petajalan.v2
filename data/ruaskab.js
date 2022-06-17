@@ -1,4 +1,4 @@
-var ruaskab = {
+{
   "type": "FeatureCollection",
   "features": [
     {
