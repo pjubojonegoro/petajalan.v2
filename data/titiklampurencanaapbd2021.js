@@ -1,4 +1,4 @@
-var rencana2021 = {
+{
   "type": "FeatureCollection",
   "features": [
 {
