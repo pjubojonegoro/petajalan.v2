@@ -10,28 +10,14 @@ L.tileLayer('http://{s}.sm.mapstack.stamen.com/(toner-background,$fff[difference
   .addTo(map);
 
 Promise.all([
-  wget<number[][]>('data/86T.json'),
-  wget<FeatureCollection>('data/CZDistricts.json'),
-  wget<FeatureCollection<LineString>>('data/rivers.json')
+  wget<FeatureCollection<Point>>('data/lampujalankab.js'),
+  wget<FeatureCollection<Point>>('data/lampujalankota.js'),
+  wget<FeatureCollection<Point>>('data/kwh.js'),
+  wget<FeatureCollection<Point>>('data/titiklampurencanaapbd2021.js'),
+  wget<FeatureCollection<LineString>>('data/ruaskab.js'),
+  wget<FeatureCollection<LineString>>('data/ruaskota.js')
 ])
-  .then(([points, districts, rivers]) => {
-    glify.shapes({
-      map: map,
-      click: (e, feature): void => {
-        L.popup()
-          .setLatLng(e.latlng)
-          .setContent(`You clicked on ${feature.properties.NAZKR_ENG}`)
-          .openOn(map);
-
-        console.log('clicked on Shape', feature, e);
-      },
-      hover: (e: LeafletMouseEvent, feature) => {
-        console.log('hovered on Shape', feature, e);
-      },
-      data: districts,
-      border: true,
-    });
-
+  .then(([lampukab, lampukota, app, lampurencana, ruaskab, ruaskota]) => {
     glify.lines({
       map,
       latitudeKey: 1,
@@ -40,7 +26,7 @@ Promise.all([
       click: (e: LeafletMouseEvent, feature) => {
         L.popup()
           .setLatLng(e.latlng)
-          .setContent(`clicked on Line ${feature.properties.name}`)
+          .setContent(`clicked on Line ${feature.properties.ruas}`)
           .openOn(map);
 
         console.log('clicked on Line', feature, e);
@@ -51,7 +37,7 @@ Promise.all([
       hoverOff: (e: LeafletMouseEvent, feature) => {
         console.log('hovered off Line', feature, e);
       },
-      data: rivers
+      data: ruaskab
     });
 
     glify.points({
@@ -71,90 +57,7 @@ Promise.all([
 
         console.log('clicked on Point', feature, e);
       },
-      data: points
-    });
-
-    glify.points({
-      map,
-      size: (i) => {
-        return 20;
-      },
-      color: () => {
-        return {
-          r: 1,
-          g: 0,
-          b: 0,
-        };
-      },
-      click: (e: LeafletMouseEvent, feature) => {
-        //set up a standalone popup (use a popup as a layer)
-        L.popup()
-          .setLatLng(feature)
-          .setContent(`You clicked the point at longitude:${e.latlng.lng}, latitude:${e.latlng.lat}`)
-          .openOn(map);
-
-        console.log('clicked on Point', feature, e);
-      },
-      hover: (e: LeafletMouseEvent, feature) => {
-        console.log('hovered on Point', feature, e);
-      },
-      data: [[50.10164799,14.5]]
-    });
-
-    glify.points({
-      map,
-      size: (i) => {
-        return 20;
-      },
-      color: () => {
-        return {
-          r: 0,
-          g: 0,
-          b: 1,
-        };
-      },
-      hover: (e: LeafletMouseEvent, feature) => {
-        console.log('hovered on Point', feature, e);
-      },
-      hoverOff: (e: LeafletMouseEvent, feature) => {
-
-      },
-      click: (e, feature) => {
-        //set up a standalone popup (use a popup as a layer)
-        L.popup()
-          .setLatLng(feature.geometry.coordinates)
-          .setContent('You clicked on:' + feature.properties.name)
-          .openOn(map);
-
-        console.log('clicked on Point', feature, e);
-      },
-      data: { //geojson
-        'type': 'FeatureCollection',
-        'features':[
-          {
-            'type':'Feature',
-            'geometry': {
-              'type': 'Point',
-              'coordinates': [90, 135]
-            },
-            'properties': {
-              'name': 'North Pole',
-              'color': 'red'
-            }
-          },
-          {
-            'type':'Feature',
-            'geometry': {
-              'type': 'Point',
-              'coordinates': [90, 45]
-            },
-            'properties': {
-              'name': 'South Pole',
-              'color': 'blue'
-            }
-          }
-        ],
-      }
+      data: lampukab
     });
   });
 
