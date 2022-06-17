@@ -1,4 +1,4 @@
-var kwh = {
+{
   "type": "FeatureCollection",
   "features": [{
       "type": "Feature",
