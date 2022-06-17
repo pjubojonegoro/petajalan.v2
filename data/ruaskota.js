@@ -1,4 +1,4 @@
-var ruaskota = {
+{
   "type": "FeatureCollection",
   "features": [
     {
