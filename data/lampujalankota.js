@@ -1,4 +1,4 @@
-var lampujalankota = {
+{
   "type": "FeatureCollection",
   "features": [
 {"type": "Feature","properties": {},"geometry": {"type": "Point","coordinates":[111.8844221,-7.1615242]}},
